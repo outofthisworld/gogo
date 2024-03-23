@@ -21,10 +21,10 @@ type TimeNanoSeconds Time
 type TimeMicroSeconds Time
 
 type TimeValue interface {
-	ToSeconds() TimeSeconds
-	ToMillseconds() TimeMilliseconds
-	ToNanoSeconds() TimeNanoSeconds
-	ToMicroSeconds() TimeMicroSeconds
+	ToSeconds() TimeValue
+	ToMillseconds() TimeValue
+	ToNanoSeconds() TimeValue
+	ToMicroSeconds() TimeValue
 	ToTime() Time
 }
 
@@ -47,19 +47,19 @@ func Microseconds(time uint32) TimeMicroSeconds {
 /*
 	TimeSeconds
 */
-func (s TimeSeconds) ToSeconds() TimeSeconds {
-	return TimeSeconds(s)
+func (s TimeSeconds) ToSeconds() TimeValue {
+	return TimeValue(s)
 }
-func (s TimeSeconds) ToMillseconds() TimeMilliseconds {
+func (s TimeSeconds) ToMillseconds() TimeValue {
 	return TimeMilliseconds(Time{s.amount * MS, MILLISECONDS_STRING})
 }
 
-func (s TimeSeconds) ToNanoSeconds() TimeNanoSeconds {
-	return TimeNanoSeconds(Time{s.ToSeconds().amount * NS, NANOSECONDS_STRING})
+func (s TimeSeconds) ToNanoSeconds() TimeValue {
+	return TimeNanoSeconds((Time{s.ToSeconds().ToTime().amount * NS, NANOSECONDS_STRING}))
 }
 
-func (s TimeSeconds) ToMicroSeconds() TimeMicroSeconds {
-	return TimeMicroSeconds(Time{s.ToSeconds().amount * MSE, MICROSECONDS_STRING})
+func (s TimeSeconds) ToMicroSeconds() TimeValue {
+	return TimeMicroSeconds(Time{s.ToSeconds().ToTime().amount * MSE, MICROSECONDS_STRING})
 }
 
 func (s TimeSeconds) ToTime() Time {
@@ -69,20 +69,20 @@ func (s TimeSeconds) ToTime() Time {
 /*
 	TimeNanoSeconds
 */
-func (s TimeNanoSeconds) ToSeconds() TimeSeconds {
+func (s TimeNanoSeconds) ToSeconds() TimeValue {
 	return TimeSeconds(Time{s.amount / NS, SECONDS_STRING})
 }
 
-func (s TimeNanoSeconds) ToMillseconds() TimeMilliseconds {
-	return TimeMilliseconds(Time{s.ToSeconds().amount * MS, MILLISECONDS_STRING})
+func (s TimeNanoSeconds) ToMillseconds() TimeValue {
+	return TimeMilliseconds(Time{s.ToSeconds().ToTime().amount * MS, MILLISECONDS_STRING})
 }
 
-func (s TimeNanoSeconds) ToNanoSeconds() TimeNanoSeconds {
+func (s TimeNanoSeconds) ToNanoSeconds() TimeValue {
 	return TimeNanoSeconds(s)
 }
 
-func (s TimeNanoSeconds) ToMicroSeconds() TimeMicroSeconds {
-	return TimeMicroSeconds(Time{s.ToSeconds().amount * MSE, MICROSECONDS_STRING})
+func (s TimeNanoSeconds) ToMicroSeconds() TimeValue {
+	return TimeMicroSeconds(Time{s.ToSeconds().ToTime().amount * MSE, MICROSECONDS_STRING})
 }
 
 func (s TimeNanoSeconds) ToTime() Time {
@@ -92,19 +92,19 @@ func (s TimeNanoSeconds) ToTime() Time {
 /*
 	TimeMicroSeconds
 */
-func (s TimeMicroSeconds) ToSeconds() TimeSeconds {
+func (s TimeMicroSeconds) ToSeconds() TimeValue {
 	return TimeSeconds(Time{s.amount / MSE, SECONDS_STRING})
 }
 
-func (s TimeMicroSeconds) ToMillseconds() TimeMilliseconds {
-	return TimeMilliseconds(Time{s.ToSeconds().amount * MS, MILLISECONDS_STRING})
+func (s TimeMicroSeconds) ToMillseconds() TimeValue {
+	return TimeMilliseconds(Time{s.ToSeconds().ToTime().amount * MS, MILLISECONDS_STRING})
 }
 
-func (s TimeMicroSeconds) ToNanoSeconds() TimeNanoSeconds {
-	return TimeNanoSeconds(Time{s.ToSeconds().amount * NS, NANOSECONDS_STRING})
+func (s TimeMicroSeconds) ToNanoSeconds() TimeValue {
+	return TimeNanoSeconds(Time{s.ToSeconds().ToTime().amount * NS, NANOSECONDS_STRING})
 }
 
-func (s TimeMicroSeconds) ToMicroSeconds() TimeMicroSeconds {
+func (s TimeMicroSeconds) ToMicroSeconds() TimeValue {
 	return TimeMicroSeconds(s)
 }
 
@@ -115,20 +115,20 @@ func (s TimeMicroSeconds) ToTime() Time {
 /*
 	TimeMilliseconds
 */
-func (s TimeMilliseconds) ToSeconds() TimeSeconds {
+func (s TimeMilliseconds) ToSeconds() TimeValue {
 	return TimeSeconds(Time{s.amount / MS, SECONDS_STRING})
 }
 
-func (s TimeMilliseconds) ToMillseconds() TimeMilliseconds {
+func (s TimeMilliseconds) ToMillseconds() TimeValue {
 	return TimeMilliseconds(s)
 }
 
-func (s TimeMilliseconds) ToNanoSeconds() TimeNanoSeconds {
-	return TimeNanoSeconds(Time{s.ToSeconds().amount * NS, NANOSECONDS_STRING})
+func (s TimeMilliseconds) ToNanoSeconds() TimeValue {
+	return TimeNanoSeconds(Time{s.ToSeconds().ToTime().amount * NS, NANOSECONDS_STRING})
 }
 
-func (s TimeMilliseconds) ToMicroSeconds() TimeMicroSeconds {
-	return TimeMicroSeconds(Time{s.ToSeconds().amount * MSE, MICROSECONDS_STRING})
+func (s TimeMilliseconds) ToMicroSeconds() TimeValue {
+	return TimeMicroSeconds(Time{s.ToSeconds().ToTime().amount * MSE, MICROSECONDS_STRING})
 }
 
 func (s TimeMilliseconds) ToTime() Time {
